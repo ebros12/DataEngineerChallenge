@@ -1,0 +1,16 @@
+# Ignorar el entorno virtual
+venv/
+
+# Archivos de configuración de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de Jupyter Notebook
+.ipynb_checkpoints
+
+# Otros archivos que puedes querer ignorar
+*.log
+*.csv
+
