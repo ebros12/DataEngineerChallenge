@@ -1,0 +1,6 @@
+# For all text files
+* text=auto
+
+# Specify end-of-line normalization
+*.py text eol=lf
+*.ipynb text eol=lf
