@@ -1,6 +1,9 @@
 # Ignorar el entorno virtual
 venv/
 
+# Ignorar archivo para bajar
+src/farmers-protest-tweets-2021-2-4.json
+
 # Archivos de configuración de Python
 __pycache__/
 *.pyc
