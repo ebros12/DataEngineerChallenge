@@ -5,6 +5,19 @@ import time
 import emoji  # Importa la librería emoji
 
 def q2_time(file_path: str) -> List[Tuple[str, int]]:
+    
+    """
+    Procesa un archivo de tweets y devuelve las 10 fechas con más tweets,
+    junto con el usuario más activo en cada una de esas fechas.
+
+    Args:
+        file_path (str): Ruta al archivo JSON que contiene los tweets.
+
+    Returns:
+        List[Tuple[datetime.date, str]]: Lista de tuplas donde cada tupla contiene 
+        una fecha (como objeto datetime.date) y el nombre de usuario que más tweets 
+        ha publicado en esa fecha.
+    """
     emoji_counter = Counter()
 
     """ Utilizando el counter """

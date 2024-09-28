@@ -4,6 +4,18 @@ import json
 import emoji  # Importa la librería emoji
 
 def q2_memory(file_path: str) -> List[Tuple[str, int]]:
+    """
+    Procesa un archivo de tweets y devuelve las 10 fechas con más tweets,
+    junto con el conteo total de tweets en cada una de esas fechas.
+
+    Args:
+        file_path (str): Ruta al archivo JSON que contiene los tweets.
+
+    Returns:
+        List[Tuple[str, int]]: Lista de tuplas donde cada tupla contiene 
+        una fecha (como cadena de texto) y el número total de tweets 
+        registrados en esa fecha.
+    """
     emoji_counter = Counter()
 
     """ Utilizando el counter """
