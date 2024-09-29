@@ -1,8 +1,8 @@
+import cProfile
 from typing import List, Tuple
 from datetime import datetime
 import json
 from collections import defaultdict
-from time import time
 
 def q1_time(file_path: str) -> List[Tuple[datetime.date, str]]:
     """
@@ -16,7 +16,6 @@ def q1_time(file_path: str) -> List[Tuple[datetime.date, str]]:
     List[Tuple[datetime.date, str]]: Lista de tuplas con las fechas y 
     los usuarios más mencionados.
     """
-    start_time = time()
     date_user_count = defaultdict(lambda: defaultdict(int))
 
     try:
@@ -43,10 +42,12 @@ def q1_time(file_path: str) -> List[Tuple[datetime.date, str]]:
 
         # Ordenar los resultados por la cantidad de menciones
         results.sort(key=lambda x: date_user_count[x[0]][x[1]], reverse=True)
-        end_time = time()
-        print(f"Tiempo de ejecución: {end_time - start_time:.2f} segundos")
         return results[:10]
 
     except Exception as e:
         print(f"Error al procesar el archivo: {e}")
         return []
+
+if __name__ == '__main__':
+    # Usando cProfile para perfilar el tiempo de ejecución
+    cProfile.run('q1_time("path/to/file.json")')

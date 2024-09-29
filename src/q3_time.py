@@ -2,9 +2,10 @@ import json
 from collections import Counter
 from typing import List, Tuple
 import time
+import cProfile
+import pstats
 
 def q3_time(file_path: str) -> List[Tuple[str, int]]:
-
     """
     Procesa un archivo de tweets y devuelve las 10 palabras más comunes
     que aparecen en el contenido de los tweets.
@@ -17,7 +18,6 @@ def q3_time(file_path: str) -> List[Tuple[str, int]]:
         una palabra (como cadena de texto) y su frecuencia (como entero).
     """
 
-    
     user_counter = Counter()
     start_time = time.time()  # Iniciar temporizador
 
@@ -42,3 +42,20 @@ def q3_time(file_path: str) -> List[Tuple[str, int]]:
     elapsed_time = time.time() - start_time  # Calcular tiempo transcurrido
     print(f"Tiempo de ejecución: {elapsed_time:.2f} segundos")
     return top_users
+
+def main(file_path: str):
+    # Usar cProfile para medir el rendimiento de la función
+    profiler = cProfile.Profile()
+    profiler.enable()  # Habilitar el profiler
+    
+    result = q3_time(file_path)  # Llamar a la función que quieres perfilar
+    
+    profiler.disable()  # Deshabilitar el profiler
+
+    # Imprimir las estadísticas de rendimiento
+    stats = pstats.Stats(profiler)
+    stats.sort_stats('cumulative')  # Ordenar por tiempo acumulativo
+    stats.print_stats()  # Imprimir estadísticas
+
+    return result
+

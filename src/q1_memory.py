@@ -1,7 +1,7 @@
 from typing import List, Tuple
 from datetime import datetime
 import json
-from collections import Counter
+from collections import defaultdict, Counter  # Asegúrate de importar Counter aquí
 from memory_profiler import profile
 
 @profile
@@ -18,8 +18,9 @@ def q1_memory(file_path: str) -> List[Tuple[datetime.date, str]]:
         una fecha y el nombre de usuario que más tweets tiene en esa fecha.
     """
     
-    date_user_count = Counter()  # Usar Counter para contar usuarios por fecha
-    
+    # Estructuras de datos para contar tweets por fecha y usuario
+    date_user_count = defaultdict(Counter)
+
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             for line in f:
@@ -28,26 +29,19 @@ def q1_memory(file_path: str) -> List[Tuple[datetime.date, str]]:
                 tweet_date = datetime.fromisoformat(tweet_date_str).date()
                 tweet_user = tweet['user']['username']
                 
-                # Se utiliza un tuple (fecha, usuario) para contar
-                date_user_count[(tweet_date, tweet_user)] += 1
-        
-        # Agrupamos resultados por fecha y encontramos el usuario más activo
-        results = []
-        date_counter = Counter()  # Para contar tweets por fecha
-        for (date, user), count in date_user_count.items():
-            date_counter[date] += count  # Sumar el conteo de tweets por fecha
-            if user not in [u for d, u in results if d == date]:  # Asegura que solo se agregue el usuario más activo
-                results.append((date, user))
+                # Contar tweets por fecha y usuario
+                date_user_count[tweet_date][tweet_user] += 1
 
-        # Encontrar el usuario más activo para cada fecha
-        final_results = []
-        for date in date_counter:
-            top_user = max([(user, date_user_count[(date, user)]) for user in results if user[0] == date], key=lambda x: x[1])[0]
-            final_results.append((date, top_user))
+        # Obtener los 10 fechas con más tweets y el usuario más activo en cada fecha
+        results = []
+        for date, user_counter in date_user_count.items():
+            # Encontrar el usuario más activo de la fecha
+            top_user = user_counter.most_common(1)[0][0]  # Obtener el usuario más activo
+            results.append((date, top_user))
         
-        # Ordenar los resultados y devolver las 10 primeras fechas
-        final_results.sort(key=lambda x: date_counter[x[0]], reverse=True)
-        return final_results[:10]
+        # Ordenar los resultados por la cantidad de tweets por fecha
+        results.sort(key=lambda x: date_user_count[x[0]][x[1]], reverse=True)
+        return results[:10]
     
     except Exception as e:
         print(f"Error al procesar el archivo: {e}")
